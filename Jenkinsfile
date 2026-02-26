@@ -39,14 +39,11 @@ pipeline {
                 --name nginx-lb \
                 --network lab6-network \
                 -p 80:80 \
-                -v $(pwd)/nginx/default.conf:/etc/nginx/conf.d/default.conf \
+                -v $(pwd)/nginx:/etc/nginx/conf.d \
                 nginx
-
-                sleep 3
                 '''
             }
         }
-    }
 
     post {
         failure {
