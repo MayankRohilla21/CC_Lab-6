@@ -36,17 +36,28 @@ pipeline {
                 docker rm -f nginx-lb || true
 
                 docker run -d \
-                --name nginx-lb \
-                --network lab6-network \
-                -p 80:80 \
-                -v $(pwd)/nginx:/etc/nginx/conf.d \
-                nginx
+                  --name nginx-lb \
+                  --network lab6-network \
+                  -p 80:80 \
+                  -v $(pwd)/nginx/default.conf:/etc/nginx/conf.d/default.conf \
+                  nginx
+
+                sleep 3
                 '''
+            }
+        }
+
+        stage('Verify Containers') {
+            steps {
+                sh 'docker ps'
             }
         }
     }
 
     post {
+        success {
+            echo 'Lab 6 completed successfully!'
+        }
         failure {
             echo 'Pipeline failed. Check console logs.'
         }
